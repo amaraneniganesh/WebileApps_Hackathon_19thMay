@@ -1,65 +1,42 @@
-import Image from "next/image";
+"use client";
+import React from "react";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { Shield, Cpu, Activity, ArrowRight } from "lucide-react";
 
-export default function Home() {
+export default function MarketingLandingPage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="min-screen bg-[#0B0F19] text-white flex flex-col justify-between overflow-x-hidden selection:bg-blue-500/30">
+      <header className="px-6 h-20 max-w-7xl mx-auto w-full flex items-center justify-between border-b border-white/5">
+        <span className="font-bold tracking-tight text-xl bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">PLATFORM CORE</span>
+        <div className="flex gap-4">
+          <Link href="/login" className="text-sm font-medium hover:text-blue-400 transition-colors py-2 px-4">Portal Connection</Link>
+          <Link href="/register" className="text-sm font-medium bg-blue-600 hover:bg-blue-500 transition-colors py-2 px-4 rounded-xl shadow-lg shadow-blue-500/20">Self Registration</Link>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </header>
+      <section className="max-w-5xl mx-auto w-full px-6 py-24 text-center flex flex-col items-center gap-8">
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-950/50 border border-blue-900/60 rounded-full text-xs font-mono font-bold text-blue-400 uppercase tracking-widest">
+          <Activity className="w-3.5 h-3.5 animate-pulse" /> Direct Downstream Integration Server 3
+        </motion.div>
+        <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }} className="text-5xl sm:text-6xl font-extrabold tracking-tight leading-tight max-w-4xl">Unified Wealth Data Normalized Intelligence Platform</motion.h1>
+        <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="text-sub text-lg sm:text-xl max-w-2xl">Aggregate inconsistent data payloads across equity nodes, mutual fund accounts, and internal physical real estate modules into a secure operational view[cite: 4, 11, 16].</motion.p>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} className="flex gap-4 mt-4">
+          <Link href="/login" className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 font-semibold px-6 py-3.5 rounded-xl transition-all shadow-xl shadow-blue-500/20 group">Launch System Control Console <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" /></Link>
+        </motion.div>
+      </section>
+      <section className="max-w-6xl mx-auto w-full px-6 grid grid-cols-1 md:grid-cols-3 gap-6 pb-24">
+        {[
+          { icon: Cpu, title: "Payload Normalization", desc: "Transforms varied downstream payload configurations into a clean, uniform query matrix[cite: 11, 23]." },
+          { icon: Shield, title: "Role Enforced Gateway", desc: "Applies strict context-aware RBAC security mapping rules directly inside Server 3[cite: 43]." },
+          { icon: Activity, title: "Telemetry Audit Trailing", desc: "Background interceptors record and lock every single user interaction for real-time compliance auditing[cite: 44]." }
+        ].map((feat, index) => (
+          <div key={index} className="bg-[#111827] border border-[#374151] p-6 rounded-2xl flex flex-col gap-3">
+            <div className="w-10 h-10 bg-blue-950 rounded-xl flex items-center justify-center border border-blue-900/50 text-blue-400"><feat.icon className="w-5 h-5" /></div>
+            <h3 className="text-base font-bold text-white mt-2">{feat.title}</h3>
+            <p className="text-sm text-sub">{feat.desc}</p>
+          </div>
+        ))}
+      </section>
+    </main>
   );
 }
