@@ -1,11 +1,16 @@
 import { Router } from 'express';
 import { 
-  gatewayLogin, 
-  publicRegisterUser, 
+  gatewayLogin,
+  unifiedGatewayRegister, 
   linkFinancialIdentity, 
   rmAssignInvestorToOps, 
-  getAggregatedMultiAssetPortfolio ,
-  getMyAllocatedInvestors
+  getAggregatedMultiAssetPortfolio,
+  getMyAllocatedInvestors,
+  adminFetchUserRegistry,       // 🔥 MOUNTED CORRECTLY
+  adminToggleUserLifecycle ,     // 🔥 MOUNTED CORRECTLY
+  adminProvisionCorporateStaff,
+  getRmLookupMetadata,
+  getRmAssignmentsLedger
 } from '../controllers/core.controller';
 import { opsOrUserAddRealEstate } from '../controllers/admin.controller';
 import { verifyGatewaySession } from '../middleware/auth.middleware';
@@ -14,25 +19,41 @@ import { auditInterceptor } from '../middleware/interceptor.middleware';
 
 const router = Router();
 
-// Public Authentication Routes
-router.post('/register', publicRegisterUser);
+// ==========================================
+// 🔓 PUBLIC ENDPOINTS
+// ==========================================
+router.post('/register', unifiedGatewayRegister);
 router.post('/login', gatewayLogin);
 
-// Secure Core Workflow Layer
+// ==========================================
+// 🔒 SECURE CORE WORKFLOW LAYER (Requires Valid Bearer JWT)
+// ==========================================
 router.use(verifyGatewaySession);
 
-// Self-Onboarding Financial Linking (Available to VIEWER/Investors)
+// Self-Onboarding Identity Linkages
 router.post('/link-identity', checkAccessRole(['VIEWER', 'ADMIN', 'OPS']), auditInterceptor, linkFinancialIdentity);
 
-// Relationship Management Assignment Controls (RM only)
+// Relationship Management Assignment Vectors (RMs + Admins Only)
 router.post('/assign-ops', checkAccessRole(['RM', 'ADMIN']), auditInterceptor, rmAssignInvestorToOps);
 
-// Multi-Asset Consolidated Visualizer (Enforces checking via checkOpsUserAuthority internal controls)
+// Multi-Asset Aggregator Pipelines
 router.get('/portfolio', checkAccessRole(['VIEWER', 'RM', 'OPS', 'ADMIN']), auditInterceptor, getAggregatedMultiAssetPortfolio);
-router.get('/portfolio/:panNumber', verifyGatewaySession, checkAccessRole(['ADMIN', 'RM']), auditInterceptor, getAggregatedMultiAssetPortfolio);
-router.get('/my-investors', verifyGatewaySession, checkAccessRole(['OPS', 'ADMIN']), auditInterceptor, getMyAllocatedInvestors);
+router.get('/portfolio/:panNumber', checkAccessRole(['ADMIN', 'RM']), auditInterceptor, getAggregatedMultiAssetPortfolio);
+router.get('/my-investors', checkAccessRole(['OPS', 'ADMIN']), auditInterceptor, getMyAllocatedInvestors);
 
-// Operational Asset Additions (OPS or Admin or User accounts self-submitting positions)
+// Operational Asset Additions 
 router.post('/real-estate/add', checkAccessRole(['ADMIN', 'OPS', 'VIEWER']), auditInterceptor, opsOrUserAddRealEstate);
+
+// ==========================================
+// 🛠️ ADMINISTRATIVE DEPLOYMENT LAYER (ADMIN ONLY)
+// ==========================================
+router.get('/admin/users', checkAccessRole(['ADMIN']), auditInterceptor, adminFetchUserRegistry);
+router.post('/admin/users/toggle', checkAccessRole(['ADMIN']), auditInterceptor, adminToggleUserLifecycle);
+router.post('/admin/create-staff', checkAccessRole(['ADMIN']), auditInterceptor, adminProvisionCorporateStaff);
+
+// Relationship Management Mapping & Discovery Utilities
+router.post('/assign-ops', checkAccessRole(['RM', 'ADMIN']), auditInterceptor, rmAssignInvestorToOps);
+router.get('/rm/lookup-meta', checkAccessRole(['RM', 'ADMIN']), auditInterceptor, getRmLookupMetadata);
+router.get('/rm/assignments-ledger', checkAccessRole(['RM', 'ADMIN']), auditInterceptor, getRmAssignmentsLedger);
 
 export default router;

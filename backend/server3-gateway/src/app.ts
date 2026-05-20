@@ -7,9 +7,11 @@ import { gatewayTelemetryEngine } from './middleware/telemetry.middleware';
 import coreRoutes from './routes/core.routes';
 import internalRoutes from './routes/internal.routes';
 import adminRoutes from './routes/admin.routes';
+import cors from 'cors';
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 // Load global trace, analytics, and browser parse interceptor blocks
 app.use(gatewayTelemetryEngine);
