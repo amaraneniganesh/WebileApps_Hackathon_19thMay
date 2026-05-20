@@ -10,7 +10,12 @@ import {
   adminToggleUserLifecycle ,     // 🔥 MOUNTED CORRECTLY
   adminProvisionCorporateStaff,
   getRmLookupMetadata,
-  getRmAssignmentsLedger
+  getRmAssignmentsLedger,
+  getMyEquityHoldings,
+  getMyEquityTransactions,
+  getMyMfPortfolio,
+  getMyMfSips,
+  getMyMfTransactions
 } from '../controllers/core.controller';
 import { opsOrUserAddRealEstate } from '../controllers/admin.controller';
 import { verifyGatewaySession } from '../middleware/auth.middleware';
@@ -55,5 +60,12 @@ router.post('/admin/create-staff', checkAccessRole(['ADMIN']), auditInterceptor,
 router.post('/assign-ops', checkAccessRole(['RM', 'ADMIN']), auditInterceptor, rmAssignInvestorToOps);
 router.get('/rm/lookup-meta', checkAccessRole(['RM', 'ADMIN']), auditInterceptor, getRmLookupMetadata);
 router.get('/rm/assignments-ledger', checkAccessRole(['RM', 'ADMIN']), auditInterceptor, getRmAssignmentsLedger);
+
+// 🔥 ADD NEW DETACHED READ-PROXY OVER-WIRE ROUTES FOR VIEWER LAYOUT
+router.get('/viewer/equity/holdings', checkAccessRole(['VIEWER']), auditInterceptor, getMyEquityHoldings);
+router.get('/viewer/equity/transactions', checkAccessRole(['VIEWER']), auditInterceptor, getMyEquityTransactions);
+router.get('/viewer/mf/portfolio', checkAccessRole(['VIEWER']), auditInterceptor, getMyMfPortfolio);
+router.get('/viewer/mf/sips', checkAccessRole(['VIEWER']), auditInterceptor, getMyMfSips);
+router.get('/viewer/mf/transactions', checkAccessRole(['VIEWER']), auditInterceptor, getMyMfTransactions);
 
 export default router;
