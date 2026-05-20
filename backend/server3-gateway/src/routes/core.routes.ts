@@ -6,8 +6,8 @@ import {
   rmAssignInvestorToOps, 
   getAggregatedMultiAssetPortfolio,
   getMyAllocatedInvestors,
-  adminFetchUserRegistry,       // 🔥 MOUNTED CORRECTLY
-  adminToggleUserLifecycle ,     // 🔥 MOUNTED CORRECTLY
+  adminFetchUserRegistry,       
+  adminToggleUserLifecycle ,     
   adminProvisionCorporateStaff,
   getRmLookupMetadata,
   getRmAssignmentsLedger,
